@@ -17,4 +17,8 @@ public class ShowEntryDto {
     private int movieId;
     private int theaterId;
 
+    private int classicSeatsPrice;
+    private int premiumSeatsPrice;
+
+
 }
