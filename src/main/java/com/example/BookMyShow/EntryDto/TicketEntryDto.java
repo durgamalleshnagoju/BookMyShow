@@ -4,20 +4,14 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
 public class TicketEntryDto {
+    private int userId;
+    private int showId;
+    private List<String> ticketsRequired = new ArrayList<>();
 
-    private String movieName;
-
-    private LocalDate showDate;
-
-    private LocalTime showTime;
-
-    private int totalAmount;
-
-    private String theaterName;
-
-    private String bookedSeats;
 }
