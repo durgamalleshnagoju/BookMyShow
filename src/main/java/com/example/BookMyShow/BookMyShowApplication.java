@@ -11,3 +11,4 @@ public class BookMyShowApplication {
 	}
 
 }
+// swagger ui link http://localhost:8080/swagger-ui/index.html
