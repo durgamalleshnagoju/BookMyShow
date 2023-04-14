@@ -9,13 +9,16 @@ import com.example.BookMyShow.EntryDto.TicketEntryDto;
 import com.example.BookMyShow.Repository.ShowRepository;
 import com.example.BookMyShow.Repository.TicketRepository;
 import com.example.BookMyShow.Repository.UserRepository;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class TicketService {
+public class    TicketService {
 
     @Autowired
     TicketRepository ticketRepository;
@@ -25,6 +28,8 @@ public class TicketService {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    JavaMailSender javaMailSender;
 
 
     public String bookTicket(TicketEntryDto ticketEntryDto)throws Exception{
@@ -61,6 +66,20 @@ public class TicketService {
         show.setListOfBookedTickets(ticketEntityList1);
 
         showRepository.save(show);
+        String body = "Hi this is to confirm your booking for seat No "+
+                ticketsBooked +"for the movie : " +
+                ticket.getMovieName() + "\n" +"Thank you for booking tickets in show_seat"+
+                "\n"+ "Have a nice day :) ";
+
+
+        MimeMessage mimeMessage=javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper=new MimeMessageHelper(mimeMessage,true);
+        mimeMessageHelper.setFrom("showseat.durgamallesh@gmail.com");
+        mimeMessageHelper.setTo(user.getEmail());
+        mimeMessageHelper.setText(body);
+        mimeMessageHelper.setSubject("Confirming your booked Ticket");
+
+        javaMailSender.send(mimeMessage);
 
         return "Ticket Booked successfully !";
     }
