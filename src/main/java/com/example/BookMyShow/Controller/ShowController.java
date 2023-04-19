@@ -26,4 +26,14 @@ public class ShowController {
         }
     }
 
+    @DeleteMapping("/deleteShow/{id}")
+    public ResponseEntity deleteShow(@PathVariable("id") int id){
+        try{
+            showService.deleteShow(id);
+            return new ResponseEntity<>("Show deleted Successfully", HttpStatus.FOUND);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

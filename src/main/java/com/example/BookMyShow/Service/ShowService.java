@@ -7,6 +7,7 @@ import com.example.BookMyShow.Enums.SeatType;
 import com.example.BookMyShow.Repository.MovieRepository;
 import com.example.BookMyShow.Repository.ShowRepository;
 import com.example.BookMyShow.Repository.TheaterRepository;
+import com.example.BookMyShow.Repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,9 @@ public class ShowService {
 
     @Autowired
     ShowRepository showRepository;
+
+    @Autowired
+    TicketRepository ticketRepository;
     public String addShow(ShowEntryDto showEntryDto)throws Exception{
         //Converting Dto to Entity
         ShowEntity showEntity = ShowConverter.convertDtoToEntity(showEntryDto);
@@ -90,4 +94,10 @@ public class ShowService {
         return showSeatEntitiesList;
     }
 
+    public void deleteShow(int id){
+        ShowEntity show = showRepository.findById(id).get();
+        List<TicketEntity> ticketEntities = show.getListOfBookedTickets();
+        for(TicketEntity ticket : ticketEntities) ticketRepository.delete(ticket);
+        showRepository.delete(show);
+    }
 }
